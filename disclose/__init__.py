@@ -302,8 +302,8 @@ class OperandWrapper(object):
         kwargs_real = OperandMetadata.real_operands(*kwargs_values)
         kwargs_data = zip(kwargs_real, OperandMetadata.for_all(*kwargs_values))
         kwargs_components = list(itertools.chain(*[kwarg.components for kwarg, meta in kwargs_data if meta]))
-        args_description = ', '.join(meta.description if meta and meta.description else real for real, meta in args_data)
-        kwargs_description = ', '.join('{}={}'.format(name, meta.description if meta and meta.description else real)
+        args_description = ', '.join(meta.description if meta and meta.description else str(real) for real, meta in args_data)
+        kwargs_description = ', '.join('{}={}'.format(name, meta.description if meta and meta.description else str(real))
                                        for name, (real, meta) in zip(kwargs_names, kwargs_data))
         description = (self_meta.description + '(' + args_description
                        + (', ' if args_description and kwargs_description else '') + kwargs_description + ')')
