@@ -206,6 +206,11 @@ class OperandWrapper(object):
                 operand = args[0]
                 description = operand.__class__.__name__
                 components = []
+            # Attempt to unwrap the operand, so we don't nest wrappers
+            try:
+                operand = OperandMetadata.for_(operand).operand
+            except(KeyError, TypeError, AttributeError):
+                pass
             OperandMetadata(operand, description, self, components)
         else:
             meta.operand.__init__(meta.operand, *args, **kwargs)
