@@ -3,6 +3,9 @@ from weakref import WeakKeyDictionary, ref, WeakValueDictionary
 import math
 from functools import partial
 import itertools
+from types import MethodType
+import inspect
+from traceback import format_tb, format_stack
 
 
 class VerificationSession(object):
@@ -26,12 +29,25 @@ class VerificationSession(object):
             raise TypeError('default_block_handler takes a result (must be truth-testable) and 1 or 2 strings.')
         assert result, message
     
+    def context_exit_handler(self, exc_type, exc_value, traceback):
+        
+        message = []
+        if exc_type == AssertionError:
+            self.logger.debug(''.join(format_tb(traceback)))
+            message.append('Assertion failed: %s' % exc_value.message)
+        if self.failures:
+            message.append('Verification failed.')
+        assert not message, '\n'.join(message)
+    
     def __init__(self, message_formatter=default_message_formatter,
-                 block_handler=default_block_handler, logger=None):
+                 block_handler=default_block_handler, logger=None,
+                 context_exit_handler=None):
         
         self.failures = []
         self.block_handler = block_handler
         self.message_formatter = message_formatter
+        if context_exit_handler:
+            self.context_exit_handler = MethodType(context_exit_handler, self)
         if logger:
             self.logger = logger
     
@@ -40,6 +56,7 @@ class VerificationSession(object):
     
     def __call__(self, result, annotation='', blocking=False):
         
+        stack = inspect.stack()
         result_meta = OperandMetadata.for_all(result)[0]
         result_real = result_meta.operand if result_meta else result
         dump_values = []
@@ -51,7 +68,7 @@ class VerificationSession(object):
             for component in result_meta.components:
                 try:
                     dump_value = '{} = {}'.format(component.description, component.operand)
-                except Exception, ex:
+                except Exception:
                     pass
                 else:
                     dump_values.append(dump_value)
@@ -61,33 +78,40 @@ class VerificationSession(object):
         if result:
             self.logger.info(message)
         else:
-            self.failures.append((result, description, annotation))
+            self.failures.append((result, description, annotation, stack))
             self.logger.error(message)
         if dump_values:
             self.logger.debug('\n'.join(dump_values))
-        if not result and blocking:
-            self.block_handler(result, message)
+        if not result:
+            if blocking:
+                self.block_handler(result, message)
+            self.logger.debug(''.join(format_stack(stack[1][0])))
+            #self.logger.debug('\n'.join('{1} line {2} in {3}'.format(*frame) for frame in stack))
     
     def __nonzero__(self):
         
         return not self.failures
+    
+    def __enter__(self):
+        
+        return self
+    
+    def __exit__(self, exc_type, exc_value, traceback):
+        
+        return self.context_exit_handler(exc_type, exc_value, traceback)
 
 
 class OperandMetadata(object):
     
     _for = {}
-    # Exists to hold references to Metadata until associated wrapper is gc'ed
-    #_ref_map = WeakKeyDictionary()
     
     def __init__(self, operand, description, wrapper, components=None):
         
-        #print 'init Meta %d for %d (%d)' % (id(self), id(wrapper), id(operand))
         self.operand = operand
         self.description = description
         self.wrapper = wrapper
         self.__class__._for[id(wrapper)] = self
         self.components = components if components else []
-        #self.__class__._ref_map[wrapper] = self
     
     @property
     def wrapper(self):
@@ -134,10 +158,6 @@ class OperandMetadata(object):
         else:
             del cls._for[id(operand)]
             raise KeyError, operand
-    
-#     def __del__(self):
-#         
-#         print 'del Meta %s for %s (%s)' % (id(self), id(self.wrapper), id(self.operand))
 
 
 def description_helper(template, left_op, left_meta, right_op, right_meta):
