@@ -134,7 +134,8 @@ Note that the system is aware of the names for the top level variables.  This
 The `VerifcationSession` can also be used as a context manager.  In this mode,
  when the context manager is exited, any assertions from within the context
  will be handled by the `VerificationSession` as well.  The following is
- essentially functionally identical to the previous example.
+ essentially functionally identical to the previous example with the assertion
+ from the end of the first example added.
  
     from disclose import VerificationSession, OperandWrapper
     
