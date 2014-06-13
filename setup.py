@@ -1,9 +1,10 @@
 from setuptools import setup, find_packages
 
 setup(name='disclose',
-      version='0.2.1',
+      version='0.2.2',
       author='Silas Ray',
       author_email='silas.ray@nytimes.com',
+      url='https://github.com/silasray/disclose',
       license='Apache2.0',
       description='A utility for test verifications',
       long_description='A utility that facilitates automatic logging of verification steps.',
