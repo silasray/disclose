@@ -133,7 +133,36 @@ Note that the system is aware of the names for the top level variables.  This
 
 The `VerifcationSession` can also be used as a context manager.  In this mode,
  when the context manager is exited, any assertions from within the context
- will be handled by the `VerificationSession` as well.
+ will be handled by the `VerificationSession` as well.  The following is
+ essentially functionally identical to the previous example.
+ 
+    from disclose import VerificationSession, OperandWrapper
+    
+    from logging import basicConfig
+    basicConfig(level='DEBUG')
+    
+    
+    class Foo(object):
+        
+        def __init__(self, x, child=None):
+            
+            self.x = x
+            self.child = child
+    
+    
+    with VerificationSession() as verify:
+        a = OperandWrapper(2, 'a')
+        b = OperandWrapper(3, 'b')
+        verify(a == b)
+        foo_a = OperandWrapper(Foo(4), 'foo_a')
+        foo_b = OperandWrapper(Foo(5, foo_a))
+        verify(foo_a.x == 4)
+        verify(foo_b.x = 5)
+        verify(foo_b.child.x == foo_a.x)
+        verify(foo_a.x + 2 == 6)
+        verify(foo_a.x < 4)
+        foo_a.x = 2
+        verify(foo_a.x < 4)
 
 Note
 ====
