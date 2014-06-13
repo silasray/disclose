@@ -40,6 +40,7 @@ This will log each verification step as it is executed, and tell us the state
     True
     ERROR:test.validation:::VERIFICATION FAILED::
     False
+    <trace here>
     Traceback (most recent call last):
       File (...)
         assert verify, 'Some verification failed!'
@@ -93,6 +94,7 @@ This is nice, but the real power of `disclose` comes in to play when we start
     (a) == (b)
     DEBUG:test.validation:a = 2
     b = 3
+    <trace here>
     INFO:test.validation:::VERIFICATION PASSED::
     (foo_a.x) == (4)
     DEBUG:test.validation:foo_a = <__main__.Foo object at 0x7f5753c94a50>
@@ -115,6 +117,7 @@ This is nice, but the real power of `disclose` comes in to play when we start
     (foo_a.x) + (2) = 6
     ERROR:test.validation:::VERIFICATION FAILED::
     (foo_a.x) < (4)
+    <trace here>
     DEBUG:test.validation:foo_a = <__main__.Foo object at 0x7f5753c94a50>
     foo_a.x = 4
     INFO:test.validation:::VERIFICATION PASSED::
@@ -127,6 +130,10 @@ Note that the system is aware of the names for the top level variables.  This
  become the name of the operand within `disclose`.  When not included, the
  system falls back to automatic name generation (as seen with `foo_b`, which
  is displayed with the class name here).
+
+The `VerifcationSession` can also be used as a context manager.  In this mode,
+ when the context manager is exited, any assertions from within the context
+ will be handled by the `VerificationSession` as well.
 
 Note
 ====
