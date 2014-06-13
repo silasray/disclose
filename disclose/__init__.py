@@ -510,7 +510,7 @@ class OperandWrapper(object):
     
     def __radd__(self, other):
         
-        self_real, self_meta, other_real, other_meta, description = binary_op_helper('({left}) + ({right})',
+        other_real, other_meta, self_real, self_meta, description = binary_op_helper('({left}) + ({right})',
                                                                                      other, self)
         result_value = other_real + self_real
         metas = []
@@ -523,7 +523,7 @@ class OperandWrapper(object):
     
     def __rsub__(self, other):
         
-        self_real, self_meta, other_real, other_meta, description = binary_op_helper('({left}) - ({right})',
+        other_real, other_meta, self_real, self_meta, description = binary_op_helper('({left}) - ({right})',
                                                                                      other, self)
         result_value = other_real - self_real
         metas = []
@@ -536,7 +536,7 @@ class OperandWrapper(object):
     
     def __rmul__(self, other):
         
-        self_real, self_meta, other_real, other_meta, description = binary_op_helper('({left}) - ({right})',
+        other_real, other_meta, self_real, self_meta, description = binary_op_helper('({left}) * ({right})',
                                                                                      other, self)
         result_value = other_real * self_real
         metas = []
@@ -549,7 +549,7 @@ class OperandWrapper(object):
     
     def __rdiv__(self, other):
         
-        self_real, self_meta, other_real, other_meta, description = binary_op_helper('({left}) / ({right})',
+        other_real, other_meta, self_real, self_meta, description = binary_op_helper('({left}) / ({right})',
                                                                                      other, self)
         result_value = other_real / self_real
         metas = []
@@ -562,7 +562,7 @@ class OperandWrapper(object):
     
     def __rfloordiv__(self, other):
         
-        self_real, self_meta, other_real, other_meta, description = binary_op_helper('({left}) // ({right})',
+        other_real, other_meta, self_real, self_meta, description = binary_op_helper('({left}) // ({right})',
                                                                                      other, self)
         result_value = other_real // self_real
         metas = []
@@ -575,7 +575,7 @@ class OperandWrapper(object):
     
     def __rmod__(self, other):
         
-        self_real, self_meta, other_real, other_meta, description = binary_op_helper('({left}) % ({right})',
+        other_real, other_meta, self_real, self_meta, description = binary_op_helper('({left}) % ({right})',
                                                                                      other, self)
         result_value = other_real % self_real
         metas = []
@@ -588,7 +588,7 @@ class OperandWrapper(object):
     
     def __rpow__(self, other):
         
-        self_real, self_meta, other_real, other_meta, description = binary_op_helper('({left}) ** ({right})',
+        other_real, other_meta, self_real, self_meta, description = binary_op_helper('({left}) ** ({right})',
                                                                                      other, self)
         result_value = other_real ** self_real
         metas = []
@@ -603,7 +603,7 @@ class OperandWrapper(object):
     
     def __rlshift__(self, other):
         
-        self_real, self_meta, other_real, other_meta, description = binary_op_helper('({left}) << ({right})',
+        other_real, other_meta, self_real, self_meta, description = binary_op_helper('({left}) << ({right})',
                                                                                      other, self)
         result_value = other_real << self_real
         metas = []
@@ -616,7 +616,7 @@ class OperandWrapper(object):
     
     def __rrshift__(self, other):
         
-        self_real, self_meta, other_real, other_meta, description = binary_op_helper('({left}) >> ({right})',
+        other_real, other_meta, self_real, self_meta, description = binary_op_helper('({left}) >> ({right})',
                                                                                      other, self)
         result_value = other_real >> self_real
         metas = []
@@ -629,7 +629,7 @@ class OperandWrapper(object):
     
     def __rand__(self, other):
         
-        self_real, self_meta, other_real, other_meta, description = binary_op_helper('({left}) & ({right})',
+        other_real, other_meta, self_real, self_meta, description = binary_op_helper('({left}) & ({right})',
                                                                                      other, self)
         result_value = other_real & self_real
         metas = []
@@ -642,7 +642,7 @@ class OperandWrapper(object):
     
     def __ror__(self, other):
         
-        self_real, self_meta, other_real, other_meta, description = binary_op_helper('({left}) | ({right})',
+        other_real, other_meta, self_real, self_meta, description = binary_op_helper('({left}) | ({right})',
                                                                                      other, self)
         result_value = other_real | self_real
         metas = []
@@ -655,7 +655,7 @@ class OperandWrapper(object):
     
     def __rxor__(self, other):
         
-        self_real, self_meta, other_real, other_meta, description = binary_op_helper('({left}) ^ ({right})',
+        other_real, other_meta, self_real, self_meta, description = binary_op_helper('({left}) ^ ({right})',
                                                                                      other, self)
         result_value = other_real ^ self_real
         metas = []
