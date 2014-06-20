@@ -77,11 +77,13 @@ class VerificationSession(object):
         message = self.message_formatter(result, description, annotation)
         if result:
             self.logger.info(message)
+            dump_value_writer = self.logger.debug
         else:
             self.failures.append((result, description, annotation, stack))
             self.logger.error(message)
+            dump_value_writer = self.logger.info
         if dump_values:
-            self.logger.debug('\n'.join(dump_values))
+            dump_value_writer('\n'.join(dump_values))
         if not result:
             if blocking:
                 self.block_handler(result, message)
