@@ -92,7 +92,7 @@ This is nice, but the real power of `disclose` comes in to play when we start
  
     ERROR:test.validation:::VERIFICATION FAILED::
     (a) == (b)
-    DEBUG:test.validation:a = 2
+    INFO:test.validation:a = 2
     b = 3
     <trace here>
     INFO:test.validation:::VERIFICATION PASSED::
