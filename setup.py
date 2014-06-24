@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(name='disclose',
-      version='0.2.3',
+      version='0.2.4',
       author='Silas Ray',
       author_email='silas.ray@nytimes.com',
       url='https://github.com/silasray/disclose',
