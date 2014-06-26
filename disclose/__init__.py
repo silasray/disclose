@@ -913,28 +913,4 @@ class OperandWrapper(object):
 # LongOperandWrapper = _make('LongOperandWrapper', long)
 # FloatOperandWrapper = _make('FloatOperandWrapper', float)
 
-### Monkeypatch JSONEncoder to attempt to unwrap anything being encoded
-
-import json.encoder
-
-original_encode = json.encoder.JSONEncoder.encode
-original_iterencode = json.encoder.JSONEncoder.iterencode
-
-def encode(self, o):
-    
-    try:
-        o = OperandMetadata.for_(o).operand
-    except:
-        pass
-    return original_encode(self, o)
-
-def iterencode(self, o, _one_shot):
-    
-    try:
-        o = OperandMetadata.for_(o).operand
-    except:
-        pass
-    return original_iterencode(self, o, _one_shot)
-
-json.encoder.JSONEncoder.encode = encode
-json.encoder.JSONEncoder.iterencode = iterencode
+import disclose.patch_json
