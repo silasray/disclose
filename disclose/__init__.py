@@ -159,7 +159,7 @@ class OperandMetadata(object):
             return meta
         else:
             del cls._for[id(operand)]
-            raise KeyError, operand
+            raise KeyError(operand)
 
 
 def description_helper(template, left_op, left_meta, right_op, right_meta):
