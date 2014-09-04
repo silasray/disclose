@@ -189,6 +189,7 @@ class OperandWrapperItertor(object):
     
     def __init__(self, operand, description, components=None):
         
+        self.operand = operand
         self.operand_iterator = iter(operand)
         self.description = description
         self.components = components if components else []
@@ -203,10 +204,10 @@ class OperandWrapperItertor(object):
         self.counter += 1
         next_value = OperandMetadata.real_operands(self.operand_iterator.next())[0]
         if self.description:
-            description = self.description + ' '
+            description = self.description
         else:
-            description = ''
-        description += self.counter
+            description = str(type(self.operand))
+        description += '[' + str(self.counter) + ']'
         return OperandWrapper(next_value, description, self.components)
 
 
