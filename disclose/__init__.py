@@ -89,6 +89,7 @@ class VerificationSession(object):
                 self.block_handler(result, message)
             self.logger.debug(''.join(format_stack(stack[1][0])))
             #self.logger.debug('\n'.join('{1} line {2} in {3}'.format(*frame) for frame in stack))
+        return result
     
     def __nonzero__(self):
         
