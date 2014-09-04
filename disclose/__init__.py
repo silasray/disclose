@@ -304,7 +304,8 @@ class OperandWrapper(object):
             value_real = value
             value_description = str(value)
         description = '' + value_description + ' in ' + meta.description if meta.description else meta.operand
-        return OperandWrapper(value_real, description, meta.components + [meta])
+        result = value_real in meta.operand
+        return OperandWrapper(result, description, meta.components + [meta])
     
     def __reversed__(self):
         
