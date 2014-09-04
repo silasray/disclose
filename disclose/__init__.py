@@ -271,7 +271,7 @@ class OperandWrapper(object):
         if isinstance(key, basestring):
             description = meta.description + "['" + key + "']"
         else:
-            description = meta.description + '[' + key + ']'
+            description = meta.description + '[' + str(key) + ']'
         attr = OperandMetadata.real_operands(meta.operand[key])[0]
         return OperandWrapper(attr, description, meta.components + [meta])
     
